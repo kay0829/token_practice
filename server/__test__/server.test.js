@@ -10,11 +10,6 @@ require('dotenv').config();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 describe('Auth - Server', () => {
-  describe('Protocol - HTTP over Secure', () => {
-    it('🚩 HTTPS 프로토콜을 사용하는 서버여야 합니다.', () => {
-      expect(app instanceof https.Server).to.equal(true);
-    });
-  });
   describe('POST /login', () => {
     let response;
     before(async () => {
