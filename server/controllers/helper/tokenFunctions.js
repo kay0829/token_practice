@@ -2,7 +2,7 @@ require('dotenv').config();
 const { sign, verify } = require('jsonwebtoken');
 
 module.exports = {
-  generateToken: async (user, checkedKeepLogin) => {
+  generateToken: (user, checkedKeepLogin) => {
     const payload = {
       id: user.id,
       email: user.email,
@@ -20,7 +20,7 @@ module.exports = {
     }
     return result;
   },
-  verifyToken: async (type, token) => {
+  verifyToken: (type, token) => {
     let secretKey, decoded;
     switch (type) {
       case 'access':
@@ -34,7 +34,7 @@ module.exports = {
     }
 
     try {
-      decoded = await verify(token, secretKey);
+      decoded = verify(token, secretKey);
     } catch (err) {
       console.log(`JWT Error: ${err.message}`);
       return null;
