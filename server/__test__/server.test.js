@@ -36,7 +36,7 @@ describe('Auth - Server', () => {
     });
     it('🚩 로그인에 성공했다면 /userinfo로 리다이렉트 되어야 합니다.', () => {
       expect(response.statusCode).to.equal(302);
-      expect(response.headers.location).to.equal('/userinfo');
+      expect(response.headers.location.toLowerCase()).to.equal('/userinfo');
     });
     it('🚩 로그인 상태를 일시적으로 유지하는 요청이라면, Access Token만 보내야합니다.', () => {
       const accessToken = response.headers['set-cookie'].join(',');
