@@ -6,7 +6,7 @@ import { setupServer } from 'msw/node';
 import '@testing-library/jest-dom';
 import App from '../App';
 
-const LOCAL_SERVER = 'https://localhost:4000';
+const LOCAL_SERVER = 'http://localhost:4000';
 const userInfo = {
   id: '0',
   userId: 'kimcoding',
