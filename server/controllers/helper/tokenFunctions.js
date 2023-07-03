@@ -37,7 +37,10 @@ module.exports = {
       decoded = verify(token, secretKey);
     } catch (err) {
       console.log(`JWT Error: ${err.message}`);
-      return null;
+      if (err.message === "jwt expired") {
+        return { jwt: "expired" };
+      }
+      return { jwt: "invalid" };
     }
     return decoded;
   },
