@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function Login() {
+export default function Login({ setIsLogin, setUserInfo }) {
   const [loginInfo, setLoginInfo] = useState({
     userId: "",
     password: "",
@@ -12,6 +12,11 @@ export default function Login() {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
   };
   const loginRequestHandler = () => {
+    if (!loginInfo.userId || !loginInfo.password) {
+      setErrorMessage("아이디와 비밀번호를 입력하세요");
+      // 입력되지 않은 값이 있는거니까 요청을 보내볼 필요도 없이 바로 리턴해줍니다.
+      return;
+    }
     /*
     TODO: Login 컴포넌트가 가지고 있는 state를 이용해 로그인을 구현합니다.
     로그인에 필요한 유저정보가 충분히 제공되지 않았다면 에러메시지가 나타나도록 구현하세요.
@@ -24,6 +29,17 @@ export default function Login() {
         로그인에 실패했다면 그에 대한 에러 핸들링을 구현하세요. 
       });
     */
+    return axios
+      .post("http://localhost:4000/login", { loginInfo, checkedKeepLogin })
+      .then((res) => {
+        console.log(res);
+        setIsLogin(true);
+        setUserInfo(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrorMessage("로그인에 실패했습니다.");
+      });
   };
 
   return (
