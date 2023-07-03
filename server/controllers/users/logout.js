@@ -8,4 +8,18 @@ module.exports = (req, res) => {
    *
    * 로그아웃 성공에 대한 상태 코드는 205가 되어야합니다.
    */
+  const cookiesOption = {
+    domain: "localhost",
+    path: "/",
+    httpOnly: true,
+    sameSite: "strict",
+    secure: true,
+  };
+
+  // 쿠키에 저장했던 모든 데이터 삭제
+  res.status(205).clearCookie("cookieId", cookiesOption);
+  res.status(205).clearCookie("access_jwt", cookiesOption);
+  res.status(205).clearCookie("refresh_jwt", cookiesOption);
+  res.status(205).clearCookie("checkedKeepLogin", cookiesOption);
+  res.send("logout");
 };
