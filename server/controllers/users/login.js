@@ -1,6 +1,6 @@
-const { USER_DATA } = require('../../db/data');
+const { USER_DATA } = require("../../db/data");
 // JWT는 generateToken으로 생성할 수 있습니다. 먼저 tokenFunctions에 작성된 여러 메서드들의 역할을 파악하세요.
-const { generateToken } = require('../helper/tokenFunctions');
+const { generateToken } = require("../helper/tokenFunctions");
 
 module.exports = async (req, res) => {
   const { userId, password } = req.body.loginInfo;
@@ -8,7 +8,9 @@ module.exports = async (req, res) => {
   // checkedKeepLogin이 false라면 Access Token만 보내야합니다.
   // checkedKeepLogin이 true라면 Access Token과 Refresh Token을 함께 보내야합니다.
   const userInfo = {
-    ...USER_DATA.filter((user) => user.userId === userId && user.password === password)[0],
+    ...USER_DATA.filter(
+      (user) => user.userId === userId && user.password === password
+    )[0],
   };
 
   /*
@@ -28,4 +30,33 @@ module.exports = async (req, res) => {
    * 클라이언트에게 바로 응답을 보내지않고 서버의 /useinfo로 리다이렉트해야 합니다.
    * express의 res.redirect 메서드를 참고하여 서버의 /userinfo로 리다이렉트 될 수 있도록 구현하세요.
    */
+  const cookiesOption = {
+    domain: "localhost",
+    path: "/",
+    httpOnly: true,
+    sameSite: "strict",
+    secure: true,
+  };
+
+  // userInfo를 찾을 수 없으면 401 에러
+  if (!userInfo.id) {
+    res.status(401).send("Not Authorized");
+  } else {
+    // userInfo를 찾았다면 accessToken 쿠키에 저장
+    const { accessToken, refreshToken } = generateToken(
+      userInfo,
+      checkedKeepLogin
+    );
+    res.cookie("access_jwt", accessToken, cookiesOption);
+    res.cookie("checkedKeepLogin", checkedKeepLogin, cookiesOption);
+
+    // 만약 checkedKeepLogin이 true라면 refreshToken도 저장
+    if (checkedKeepLogin) {
+      cookiesOption.maxAge = 1000 * 60 * 30;
+      res.cookie("refresh_jwt", refreshToken, cookiesOption);
+    }
+
+    // 마지막으로 userinfo로 redirect
+    res.redirect("/userinfo");
+  }
 };
