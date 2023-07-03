@@ -1,6 +1,6 @@
-const { USER_DATA } = require('../../db/data');
+const { USER_DATA } = require("../../db/data");
 // JWT는 verifyToken으로 검증할 수 있습니다. 먼저 tokenFunctions에 작성된 여러 메서드들의 역할을 파악하세요.
-const { verifyToken, generateToken } = require('../helper/tokenFunctions');
+const { verifyToken, generateToken } = require("../helper/tokenFunctions");
 
 module.exports = async (req, res) => {
   /*

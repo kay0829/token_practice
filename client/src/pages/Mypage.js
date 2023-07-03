@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React from 'react';
+import axios from "axios";
+import React from "react";
 
 export default function Mypage({ userInfo }) {
   const logoutHandler = () => {
@@ -17,18 +17,18 @@ export default function Mypage({ userInfo }) {
   };
 
   return (
-    <div className='container'>
-      <div className='left-box'>
+    <div className="container">
+      <div className="left-box">
         <span>
           {`${userInfo.name}(${userInfo.userId})`}님,
           <p>반갑습니다!</p>
         </span>
       </div>
-      <div className='right-box'>
+      <div className="right-box">
         <h1>AUTH STATES</h1>
-        <div className='input-field'>
+        <div className="input-field">
           <h3>내 정보</h3>
-          <div className='userinfo-field'>
+          <div className="userinfo-field">
             <div>{`💻 ${userInfo.position}`}</div>
             <div>{`📩 ${userInfo.email}`}</div>
             <div>{`📍 ${userInfo.location}`}</div>
@@ -37,7 +37,7 @@ export default function Mypage({ userInfo }) {
               <span>{userInfo.bio}</span>
             </article>
           </div>
-          <button className='logout-btn' onClick={logoutHandler}>
+          <button className="logout-btn" onClick={logoutHandler}>
             LOGOUT
           </button>
         </div>

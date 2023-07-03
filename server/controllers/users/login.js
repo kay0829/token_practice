@@ -1,6 +1,6 @@
-const { USER_DATA } = require('../../db/data');
+const { USER_DATA } = require("../../db/data");
 // JWT는 generateToken으로 생성할 수 있습니다. 먼저 tokenFunctions에 작성된 여러 메서드들의 역할을 파악하세요.
-const { generateToken } = require('../helper/tokenFunctions');
+const { generateToken } = require("../helper/tokenFunctions");
 
 module.exports = async (req, res) => {
   const { userId, password } = req.body.loginInfo;
@@ -8,7 +8,9 @@ module.exports = async (req, res) => {
   // checkedKeepLogin이 false라면 Access Token만 보내야합니다.
   // checkedKeepLogin이 true라면 Access Token과 Refresh Token을 함께 보내야합니다.
   const userInfo = {
-    ...USER_DATA.filter((user) => user.userId === userId && user.password === password)[0],
+    ...USER_DATA.filter(
+      (user) => user.userId === userId && user.password === password
+    )[0],
   };
 
   /*
